@@ -120,7 +120,7 @@ class HTTPClient(object):
                 done = not part
         return str(buffer)
 
-    # Break down a URL into its host,port,path components
+    # Break down a URL into its host,port,path,query components
     def decomposeUrl(self, url):
         regex = "(?:http://)?(?P<host>[^:/]+).?(?P<port>[0-9]*)(?P<path>[^?]*).?(?P<query>.*)?"
         match = re.search(regex, url)
@@ -150,11 +150,14 @@ class HTTPClient(object):
             + "Host: " + encoded_host + "\r\n" \
             + "Accept: */*\r\n\r\n"
 
+        # DEBUG
+        # print(request, '\n\n')
+
         # Send the request and get the response
         data = self.send_and_receive(host, port, request)
 
-        # DEBUG
-        # print(data)
+        # Print Response to Console
+        print data
 
         # Parse Data
         code = self.get_code(data)
@@ -164,8 +167,36 @@ class HTTPClient(object):
 
     # TODO: encode query arguments using urllib
     def POST(self, url, args=None):
-        code = 500
-        body = ""
+        # Build POST Request
+        host, port, path, query = self.decomposeUrl(url)
+        encoded_path = urllib.quote(path)
+        encoded_host = urllib.quote(host)
+        if args is None:
+            body = ''
+        else:
+            body = urllib.urlencode(args)
+
+        request = "POST " + encoded_path + " HTTP/1.1\r\n" \
+            + "User-Agent: cmput410client\r\n" \
+            + "Host: " + encoded_host + "\r\n" \
+            + "Accept: */*\r\n" \
+            + "Content-Length: " + str(len(body)) + "\r\n" \
+            + "Content-Type: application/x-www-form-urlencoded\r\n\r\n" \
+            + body
+
+        # DEBUG
+        # print(request)
+
+        # Send the request and get the response
+        data = self.send_and_receive(host, port, request)
+
+        # Print Response to Console
+        print data
+
+        # Parse Data
+        code = self.get_code(data)
+        body = self.get_body(data)
+
         return HTTPRequest(code, body)
 
     def command(self, url, command="GET", args=None):

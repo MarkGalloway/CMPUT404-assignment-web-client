@@ -34,28 +34,28 @@ class TestHTTPClient(unittest.TestCase):
 
     def test_full_url(self):
         http = httpclient.HTTPClient()
-        host, port, path = http.decomposeUrl("http://www.google.ca:80/some/path/index.html")
+        host, port, path, query = http.decomposeUrl("http://www.google.ca:80/some/path/index.html")
         self.assertTrue(host == "www.google.ca")
         self.assertTrue(port == 80)
         self.assertTrue(path == "/some/path/index.html")
 
     def test_no_port(self):
         http = httpclient.HTTPClient()
-        host, port, path = http.decomposeUrl("http://www.google.ca/some/path/index.html")
+        host, port, path, query = http.decomposeUrl("http://www.google.ca/some/path/index.html")
         self.assertTrue(host == "www.google.ca")
         self.assertTrue(port == 80)
         self.assertTrue(path == "/some/path/index.html")
 
     def test_no_path(self):
         http = httpclient.HTTPClient()
-        host, port, path = http.decomposeUrl("http://www.google.ca:75")
+        host, port, path, query = http.decomposeUrl("http://www.google.ca:75")
         self.assertTrue(host == "www.google.ca")
         self.assertTrue(port == 75)
         self.assertTrue(path == "/")
 
     def test_no_path_no_port(self):
         http = httpclient.HTTPClient()
-        host, port, path = http.decomposeUrl("www.google.ca")
+        host, port, path, query = http.decomposeUrl("www.google.ca")
         self.assertTrue(host == "www.google.ca")
         self.assertTrue(port == 80)
         self.assertTrue(path == "/")

@@ -66,5 +66,14 @@ class TestHTTPClient(unittest.TestCase):
         code = http.get_code(response)
         self.assertTrue(code == 302)
 
+    # To test:
+    # Test  get_body
+    # Test  get_header
+    # URL with username/password??
+    # URL with fancy encodings to make sure we handle them correctly
+    # URL with / / /  path gets transcoded to \ \ \ ??? Does this make sense??
+    # Query strings
+
+
 if __name__ == '__main__':
     unittest.main()

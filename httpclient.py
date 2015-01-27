@@ -75,14 +75,14 @@ class HTTPClient(object):
         end = data.find("\r\n\r\n")
         if start == -1:
             return ''
-        else :
+        else:
             return data[start + 2:end]
 
     def get_body(self, data):
         start = data.find("\r\n\r\n")
         if start == -1:
             return ''
-        else :
+        else:
             return data[start + 4:]
 
     def send_and_receive(self, host, port, request):
@@ -122,7 +122,7 @@ class HTTPClient(object):
 
     # Break down a URL into its host,port,path components
     def decomposeUrl(self, url):
-        regex = "(?:http://)?(?P<host>[^:/]+).?(?P<port>[0-9]*)(?P<path>.*)"
+        regex = "(?:http://)?(?P<host>[^:/]+).?(?P<port>[0-9]*)(?P<path>[^?]*).?(?P<query>.*)?"
         match = re.search(regex, url)
         host = match.group('host')
         port = match.group('port')
@@ -133,14 +133,17 @@ class HTTPClient(object):
         path = match.group('path')
         if path == '' or path[0] != '/':
             path = '/' + path
-        return host, port, path
+        query = match.group('query')
+        return host, port, path, query
 
     # Perform a HTTP GET request to the URL argument
     def GET(self, url, args=None):
         # Build GET Request
-        host, port, path = self.decomposeUrl(url)
+        host, port, path, query = self.decomposeUrl(url)
         encoded_path = urllib.quote(path)
         encoded_host = urllib.quote(host)
+        if query != '':
+            encoded_path + '?' + urllib.quote(query)
 
         request = "GET " + encoded_path + " HTTP/1.1\r\n" \
             + "User-Agent: cmput410client\r\n" \

@@ -19,10 +19,10 @@
 
 ** User Stories
    - [X] As a user I want to GET from URLs
-   - [] As a user I want to GET from URLs that use virtualhosting
+   - [ ] As a user I want to GET from URLs that use virtualhosting
    - [X] As a user I want to POST to URLs
-   - As a user I want to POST from URLs that use virtualhosting
-   - As a user when I GET or POST I want the result printed to stdout
+   - [ ] As a user I want to POST from URLs that use virtualhosting
+   - [x] As a user when I GET or POST I want the result printed to stdout
    - [X] As a developer when I GET or POST I want the result returned as
      a HTTPRequest object
 
@@ -32,14 +32,14 @@
    - [X] The httpclient can pass all the tests in freetests.py
    - [ ] The webserver can pass all the tests in not-free-tests.py
      (you don't have this one!)
-   - [ ] HTTP POST can post vars
+   - [X] HTTP POST can post vars
    - [X] HTTP POST handles at least Content-Type:
      application/x-www-form-urlencoded
    - [X] httpclient can handle 404 requests and 200 requests
 
 ** Restrictions
    - [X] Use Python 2.7
-   - [] Must run in the undergrad lab (Ubuntu 12.04)
+   - [ ] Must run in the undergrad lab (Ubuntu 12.04)
    - [X] License your httpclient properly (use an OSI approved license)
      - Put your name on it!
    - [X] You cannot use a Web Client library except for urllib utils
